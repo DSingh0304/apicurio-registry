@@ -303,7 +303,7 @@ public class ArtifactCommandTest extends AbstractCLITest {
         executeAndAssertSuccess("artifact", "--output-type", "table");
         assertThat(out.toString())
                 .as(withCliOutput("Table output should display 'default' for default group"))
-                .contains("default");
+                .containsPattern("(?m)^default\\s+");
     }
 
     @Test

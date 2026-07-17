@@ -148,47 +148,73 @@ public class GroupCommandTest extends AbstractCLITest {
     }
 
     @Test
-    public void testDefaultGroupHandling() throws JsonProcessingException {
+    public void testDefaultGroupGet() throws JsonProcessingException {
         // Test getting default group (returns stub, no API call)
         out.getBuffer().setLength(0);
         executeAndAssertSuccess("group", "get", "default", "--output-type", "json");
         var group = MAPPER.readValue(out.toString(), GroupMetaData.class);
-        assertThat(group.getGroupId()).isEqualTo("default");
+        assertThat(group.getGroupId())
+                .as(withCliOutput("Should return default group stub"))
+                .isEqualTo("default");
 
         // Test getting default group as a table
         out.getBuffer().setLength(0);
         executeAndAssertSuccess("group", "get", "default", "--output-type", "table");
-        assertThat(out.toString()).contains("N/A");
+        assertThat(out.toString())
+                .as(withCliOutput("Should display default group in table"))
+                .contains("default");
 
         // Test getting empty string (resolves to default group)
         out.getBuffer().setLength(0);
         executeAndAssertSuccess("group", "get", "", "--output-type", "json");
         group = MAPPER.readValue(out.toString(), GroupMetaData.class);
-        assertThat(group.getGroupId()).isEqualTo("default");
+        assertThat(group.getGroupId())
+                .as(withCliOutput("Empty string should resolve to default group"))
+                .isEqualTo("default");
+    }
 
-        // Test create/update/delete default group fails with validation error and proper message
+    @Test
+    public void testDefaultGroupCreate() {
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "create", "default");
-        assertThat(err.toString()).contains("is reserved and cannot be created");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject creating 'default' group"))
+                .contains("is implicit and cannot be created");
 
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "create", "");
-        assertThat(err.toString()).contains("is reserved and cannot be created");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject creating empty string group"))
+                .contains("is implicit and cannot be created");
+    }
 
+    @Test
+    public void testDefaultGroupUpdate() {
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "update", "default");
-        assertThat(err.toString()).contains("is implicit and cannot be updated");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject updating 'default' group"))
+                .contains("is implicit and cannot be updated");
 
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "update", "");
-        assertThat(err.toString()).contains("is implicit and cannot be updated");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject updating empty string group"))
+                .contains("is implicit and cannot be updated");
+    }
 
+    @Test
+    public void testDefaultGroupDelete() {
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "delete", "default");
-        assertThat(err.toString()).contains("is implicit and cannot be deleted");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject deleting 'default' group"))
+                .contains("is implicit and cannot be deleted");
 
         err.getBuffer().setLength(0);
         executeAndAssertFailure("group", "delete", "");
-        assertThat(err.toString()).contains("is implicit and cannot be deleted");
+        assertThat(err.toString())
+                .as(withCliOutput("Should reject deleting empty string group"))
+                .contains("is implicit and cannot be deleted");
     }
 }
