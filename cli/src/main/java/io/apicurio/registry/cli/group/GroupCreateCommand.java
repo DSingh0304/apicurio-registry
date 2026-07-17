@@ -51,7 +51,7 @@ public class GroupCreateCommand extends AbstractCommand {
     @Override
     public void run(OutputBuffer output) throws Exception {
         if (isDefaultGroup(groupId)) {
-            throw new CliException("The group 'default' is reserved and cannot be created.", VALIDATION_ERROR_RETURN_CODE);
+            throw new CliException("The group 'default' is implicit and cannot be created.", VALIDATION_ERROR_RETURN_CODE);
         }
         var newGroup = new CreateGroup();
         newGroup.setGroupId(groupId);
