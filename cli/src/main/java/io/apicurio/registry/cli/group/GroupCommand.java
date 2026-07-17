@@ -21,6 +21,7 @@ import static io.apicurio.registry.cli.utils.Columns.LABELS;
 import static io.apicurio.registry.cli.utils.Columns.MODIFIED_BY;
 import static io.apicurio.registry.cli.utils.Columns.MODIFIED_ON;
 import static io.apicurio.registry.cli.utils.Columns.OWNER;
+import static io.apicurio.registry.cli.common.IdUtil.displayGroupId;
 import static io.apicurio.registry.cli.utils.Conversions.convert;
 import static io.apicurio.registry.cli.utils.Conversions.convertToString;
 
@@ -80,7 +81,7 @@ public class GroupCommand extends AbstractCommand {
                     );
                     groups.getGroups().forEach(g -> {
                         table.addRow(
-                                g.getGroupId(),
+                                displayGroupId(g.getGroupId()),
                                 g.getDescription(),
                                 convertToString(g.getCreatedOn()),
                                 g.getOwner(),

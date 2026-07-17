@@ -23,6 +23,7 @@ import static io.apicurio.registry.cli.utils.Columns.LABELS;
 import static io.apicurio.registry.cli.utils.Columns.MODIFIED_BY;
 import static io.apicurio.registry.cli.utils.Columns.MODIFIED_ON;
 import static io.apicurio.registry.cli.utils.Columns.OWNER;
+import static io.apicurio.registry.cli.common.IdUtil.displayGroupId;
 import static io.apicurio.registry.cli.utils.Conversions.convert;
 import static io.apicurio.registry.cli.utils.Conversions.convertToString;
 import static io.apicurio.registry.cli.utils.Mapper.MAPPER;
@@ -99,7 +100,7 @@ public class SearchGroupsCommand extends AbstractCommand {
                     table.addColumns(GROUP_ID, DESCRIPTION, CREATED_ON, OWNER, MODIFIED_ON, MODIFIED_BY, LABELS);
                     Optional.ofNullable(results.getGroups()).orElse(List.of()).forEach(g -> {
                         table.addRow(
-                                g.getGroupId(),
+                                displayGroupId(g.getGroupId()),
                                 g.getDescription(),
                                 convertToString(g.getCreatedOn()),
                                 g.getOwner(),

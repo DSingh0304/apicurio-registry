@@ -84,7 +84,7 @@ public class ReferenceListCommand extends AbstractCommand {
                         final var table = new TableBuilder();
                         table.addColumns(GROUP_ID, ARTIFACT_ID, VERSION, REFERENCE_NAME);
                         for (final ArtifactReference ref : references) {
-                            table.addRow(ref.getGroupId(), ref.getArtifactId(),
+                            table.addRow(IdUtil.displayGroupId(ref.getGroupId()), ref.getArtifactId(),
                                     ref.getVersion(), ref.getName());
                         }
                         table.print(out);
