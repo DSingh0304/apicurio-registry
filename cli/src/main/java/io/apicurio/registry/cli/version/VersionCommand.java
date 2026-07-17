@@ -12,6 +12,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
 
+import static io.apicurio.registry.cli.common.IdUtil.displayGroupId;
 import static io.apicurio.registry.cli.utils.Columns.ARTIFACT_ID;
 import static io.apicurio.registry.cli.utils.Columns.CONTENT_ID;
 import static io.apicurio.registry.cli.utils.Columns.CREATED_ON;
@@ -24,7 +25,6 @@ import static io.apicurio.registry.cli.utils.Columns.STATE;
 import static io.apicurio.registry.cli.utils.Columns.VERSION;
 import static io.apicurio.registry.cli.utils.Conversions.convert;
 import static io.apicurio.registry.cli.utils.Conversions.convertToString;
-import static io.apicurio.registry.cli.common.IdUtil.displayGroupId;
 
 /** Lists versions for an artifact with pagination support. */
 @Command(
