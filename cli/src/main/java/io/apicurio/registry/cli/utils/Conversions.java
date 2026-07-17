@@ -196,7 +196,7 @@ public final class Conversions {
     }
 
     public static Date convert(OffsetDateTime ts) {
-        return Date.from(ts.toInstant());
+        return ts == null ? null : Date.from(ts.toInstant());
     }
 
     public static String convertToString(Labels labels) {
@@ -207,6 +207,9 @@ public final class Conversions {
     }
 
     public static String convertToString(Map<String, ?> labels) {
+        if (labels == null) {
+            return "";
+        }
         return labels.entrySet().stream()
                 .map(e -> e.getKey() + "=" + e.getValue())
                 .collect(Collectors.joining(","));
