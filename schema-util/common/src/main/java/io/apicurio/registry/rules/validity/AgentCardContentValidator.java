@@ -135,8 +135,8 @@ public class AgentCardContentValidator implements ContentValidator {
 
     private void validateStringFields(JsonNode tree, Set<RuleViolation> violations) {
         JsonValidationUtils.validateOptionalString(tree, "protocolVersion", violations);
-        JsonValidationUtils.validateOptionalString(tree, "iconUrl", violations);
-        JsonValidationUtils.validateOptionalString(tree, "documentationUrl", violations);
+        JsonValidationUtils.validateOptionalUrl(tree, "iconUrl", violations);
+        JsonValidationUtils.validateOptionalUrl(tree, "documentationUrl", violations);
     }
 
     private void validateProviderField(JsonNode tree, Set<RuleViolation> violations) {
@@ -159,6 +159,8 @@ public class AgentCardContentValidator implements ContentValidator {
         if (!provider.has("url") || !provider.get("url").isTextual()) {
             violations.add(new RuleViolation(
                     "'provider.url' is required and must be a string", "/provider/url"));
+        } else {
+            JsonValidationUtils.validateHttpUrl(provider.get("url").asText(), "/provider/url", violations);
         }
     }
 
@@ -182,6 +184,8 @@ public class AgentCardContentValidator implements ContentValidator {
             if (!iface.has("url") || !iface.get("url").isTextual()) {
                 violations.add(new RuleViolation(
                         "Interface 'url' is required and must be a string", basePath + "/url"));
+            } else {
+                JsonValidationUtils.validateHttpUrl(iface.get("url").asText(), basePath + "/url", violations);
             }
 
             if (!iface.has("protocolBinding") || !iface.get("protocolBinding").isTextual()) {
